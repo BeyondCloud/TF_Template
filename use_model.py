@@ -5,9 +5,7 @@ from utils.utils import get_args
 from data_loader.data_generator import DataGenerator
 try:
     args = get_args()
-    print(args)
     config = process_config(args.config)
-
 except:
     print("missing or invalid arguments")
     exit(0)
