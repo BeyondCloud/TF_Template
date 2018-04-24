@@ -1,7 +1,7 @@
 import os
 
 
-def create_dirs(dirs):
+def create_dirs_if_not_exist(dirs):
     """
     dirs - a list of directories to create if these directories are not found
     :param dirs:

@@ -1,7 +1,8 @@
 from base.base_model import BaseModel
 import tensorflow as tf
-
-
+import numpy as np
+def my_activation(x):
+    return (tf.exp(x)-1)/(tf.exp(x)+1)
 class ExampleModel(BaseModel):
     def __init__(self, config):
         super(ExampleModel, self).__init__(config)
@@ -12,15 +13,17 @@ class ExampleModel(BaseModel):
         self.is_training = tf.placeholder(tf.bool)
 
         self.x = tf.placeholder(tf.float32, shape=[None] + self.config.state_size)
-        self.y = tf.placeholder(tf.float32, shape=[None, 10])
+        self.y = tf.placeholder(tf.float32, shape=[None, 1])
 
         # network architecture
-        d1 = tf.layers.dense(self.x, 512, activation=tf.nn.relu, name="dense1")
-        d2 = tf.layers.dense(d1, 10, name="dense2")
+        out = tf.layers.dense(self.x, 50, activation=tf.nn.relu, name="dense1")
+        out= tf.layers.dense(out, 50, activation=tf.nn.relu, name="dense2")
+        out= tf.layers.dense(out, 50, activation=tf.nn.relu, name="dense3")
+        d2 = tf.layers.dense(out, 1, name="dense4")
 
         with tf.name_scope("loss"):
-            self.cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=self.y, logits=d2))
-            self.train_step = tf.train.AdamOptimizer(self.config.learning_rate).minimize(self.cross_entropy,
+            self.sqm = tf.reduce_mean(tf.squared_difference(d2,self.y),1)
+            self.train_step = tf.train.AdamOptimizer(self.config.learning_rate).minimize(self.sqm,
                                                                                          global_step=self.global_step_tensor)
             correct_prediction = tf.equal(tf.argmax(d2, 1), tf.argmax(self.y, 1))
             self.accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
