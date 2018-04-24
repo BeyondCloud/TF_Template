@@ -19,13 +19,13 @@ class ExampleModel(BaseModel):
         out = tf.layers.dense(self.x, 50, activation=tf.nn.relu, name="dense1")
         out= tf.layers.dense(out, 50, activation=tf.nn.relu, name="dense2")
         out= tf.layers.dense(out, 50, activation=tf.nn.relu, name="dense3")
-        d2 = tf.layers.dense(out, 1, name="dense4")
+        self.y_bar = tf.layers.dense(out, 1, name="dense4")
 
         with tf.name_scope("loss"):
-            self.sqm = tf.reduce_mean(tf.squared_difference(d2,self.y),1)
+            self.sqm = tf.reduce_mean(tf.squared_difference(self.y_bar,self.y),1)
             self.train_step = tf.train.AdamOptimizer(self.config.learning_rate).minimize(self.sqm,
                                                                                          global_step=self.global_step_tensor)
-            correct_prediction = tf.equal(tf.argmax(d2, 1), tf.argmax(self.y, 1))
+            correct_prediction = tf.equal(tf.argmax(self.y_bar, 1), tf.argmax(self.y, 1))
             self.accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 
