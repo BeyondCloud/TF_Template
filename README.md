@@ -3,15 +3,15 @@ Original author
 https://github.com/MrGemy95/Tensorflow-Project-Template
 This is a clone version with some modification
 
-# To run the code
+-  To run the code
 ``` 
 python main.py --config ./configs/example.json
 ``` 
-# To use the model
+-  To use the model
 ``` 
 python use_model.py --config ./configs/example.json
 ``` 
-# To view logger on tensorboard
+-  To view logger on tensorboard
 ``` 
 tensorboard --logdir=./path_of_your_log_dir
 ```
