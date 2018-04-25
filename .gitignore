@@ -106,3 +106,4 @@ ENV/
 .idea/workspace.xml
 experiments/
 Playground/
+data/
