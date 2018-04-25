@@ -20,18 +20,15 @@ class DataGenerator:
 
     def next_batch(self, batch_size=1):
     	idx = np.random.choice(self.Ndata, batch_size)
+    	#load and preprocess your data here
+        
     	if self.config.load_mode == "":
         	yield self.feats[idx], self.labels[idx]
-        #load and preprocess your data here
         elif self.config.load_mode == "path":
-        	imgs = []
-        	for p in self.paths[idx]:
-	        	img = np.array(Image.open(p)).reshape(1,-1)
-	        	try:
-	        		imgs = np.concatenate((imgs,img),axis = 0)
-	        	except:
-	        		imgs = img
-	        yield imgs, self.labels[idx].reshape(-1,1)
+        	feats = np.zeros(tuple([batch_size])+tuple(self.config.state_size))
+        	for i,p in enumerate(self.paths[idx]):
+	        	feats[i,:] = np.array(Image.open(p)).reshape(1,-1)
+	        yield feats, self.labels[idx].reshape(-1,1)
 
 
     def get_paths_and_labels(self,csv_name):

@@ -12,7 +12,7 @@ class BaseTrain(object):
         for cur_epoch in range(self.config.num_epochs):
             self.train_epoch()
             self.sess.run(self.model.increment_cur_epoch_tensor)
-
+        self.model.save(self.sess)
     def train_epoch(self):
         """
         implement the logic of epoch:

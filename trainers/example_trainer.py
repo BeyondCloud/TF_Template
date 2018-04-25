@@ -26,7 +26,6 @@ class ExampleTrainer(BaseTrain):
             'acc': acc,
         }
         self.logger.summarize(cur_it, summaries_dict=summaries_dict)
-        self.model.save(self.sess)
 
     def train_step(self):
         batch_x, batch_y = next(self.data.next_batch(self.config.batch_size))
