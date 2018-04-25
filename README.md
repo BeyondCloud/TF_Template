@@ -7,6 +7,10 @@ This is a clone version with some modification
 ``` 
 python main.py --config ./configs/example.json
 ``` 
+# To use the model
+``` 
+python use_model.py --config ./configs/example.json
+``` 
 # To view logger on tensorboard
 ``` 
 tensorboard --logdir=./path_of_your_log_dir
